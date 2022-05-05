@@ -12,7 +12,7 @@ public class Main {
         Scanner fileInput;
         while (true) {
             try {
-                System.out.println("Specify " + fileDesc + " filename: ");
+                System.out.print("Specify " + fileDesc + " filename: ");
                 inputFile = new File(input.next());
                 fileInput = new Scanner(inputFile);
                 break;
@@ -49,6 +49,7 @@ public class Main {
 
 
     private enum ProgramMode {
+        DIRECT_INPUT,
         LOAD_FROM_FILE,
         GENERATE_RANDOM_PROBLEM
     }
@@ -57,10 +58,18 @@ public class Main {
         final boolean RECORD_TIME_TAKEN = false;
 
         System.out.println("--== EXT. EUCLIDEAN ALGORITHM ==--");
+        switch (PROGRAM_MODE) {
+            case DIRECT_INPUT -> System.out.println("Mode: Input problem directly");
+            case LOAD_FROM_FILE -> System.out.println("Mode: Load problem from file");
+            case GENERATE_RANDOM_PROBLEM -> System.out.println("Mode: Generate random problem");
+        }
 
         // Load/generate problem
         ProblemInstance problem = new ProblemInstance();
         switch (PROGRAM_MODE) {
+            case DIRECT_INPUT:
+                problem.loadFromInput( new Scanner(System.in) );
+                break;
             case LOAD_FROM_FILE:
                 loadProblemFromFile(problem); // tests/in/1.in
                 break;
