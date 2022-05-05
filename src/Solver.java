@@ -1,10 +1,33 @@
+import java.io.PrintStream;
+
 public class Solver {
-    private void printWorkingLine(long num, long coeff1, long coeff2) {
-        System.out.printf("(%9d, %5d, %5d)\n", num, coeff1, coeff2);
+    private PrintStream logStream;
+
+    public Solver(PrintStream logStream) {
+        setLogStream(logStream);
     }
 
+    public boolean isVerbose() {
+        return logStream != null;
+    }
+    public void setLogStream(PrintStream logStream) {
+        this.logStream = logStream;
+    }
+
+
+
+    private void print(String format, Object... args) {
+        if (isVerbose())
+            logStream.printf(format, args);
+    }
+    private void printWorkingLine(long num, long coeff1, long coeff2) {
+        print("(%9d, %5d, %5d)\n", num, coeff1, coeff2);
+    }
+
+
+
     // Main Euclidean algorithm here
-    public SolutionInstance solve(ProblemInstance problem) {
+    private SolutionInstance solveNoStats(ProblemInstance problem) {
         SolutionInstance sol = new SolutionInstance();
 
         // Helper variables to init the others
@@ -47,6 +70,17 @@ public class Solver {
         sol.gcd = a;
         sol.coeff1 = ac1;
         sol.coeff2 = ac2;
+
+        return sol;
+    }
+
+    public SolutionInstance solve(ProblemInstance problem) {
+        long startTime = System.nanoTime();
+
+        SolutionInstance sol = solveNoStats(problem);
+
+        long duration = System.nanoTime() - startTime;
+        sol.timeTaken = duration*.000000001f;
 
         return sol;
     }

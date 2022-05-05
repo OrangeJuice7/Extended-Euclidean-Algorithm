@@ -5,6 +5,9 @@ public class SolutionInstance {
     public long gcd;
     public long coeff1, coeff2;
 
+    // Statistics
+    float timeTaken; // in seconds
+
     public void loadFromInput(Scanner input) {
         gcd = input.nextInt();
     }
@@ -30,5 +33,8 @@ public class SolutionInstance {
     public void print(PrintStream out) {
         out.println("GCD: " + gcd);
         out.println("Coeffs: (" + coeff1 + "," + coeff2 + ")");
+    }
+    public void printTimeTaken(PrintStream out) {
+        out.printf("Time taken: %.4f s\n", timeTaken);
     }
 }
